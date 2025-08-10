@@ -12,6 +12,7 @@ export default function Home() {
           <div className="mt-8 flex gap-3">
             <Link href="/search" className="px-4 py-2 rounded-md border bg-black text-white hover:bg-neutral-800">立即搜索</Link>
             <Link href="/categories" className="px-4 py-2 rounded-md border hover:bg-neutral-100">浏览分类</Link>
+            <Link href="/resources" className="px-4 py-2 rounded-md border hover:bg-neutral-100">所有资料</Link>
           </div>
         </div>
       </section>
