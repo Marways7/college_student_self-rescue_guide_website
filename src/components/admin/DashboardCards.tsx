@@ -33,27 +33,27 @@ export default async function DashboardCards() {
     <div className="space-y-8">
       <div className="grid gap-6 md:grid-cols-3">
         {cards.map((c) => (
-          <div key={c.title} className="rounded-xl border shadow-sm p-5 bg-white/80 backdrop-blur">
-            <div className="text-sm text-neutral-500">{c.title}</div>
+          <div key={c.title} className="card p-5">
+            <div className="text-sm text-foreground/70">{c.title}</div>
             <div className="mt-2 text-3xl font-semibold">{c.value}</div>
-            <div className="text-xs text-neutral-500 mt-1">{c.hint}</div>
+            <div className="text-xs text-foreground/60 mt-1">{c.hint}</div>
           </div>
         ))}
       </div>
 
-      <div className="rounded-xl border p-5 bg-white/80">
+      <div className="card p-5">
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-semibold text-neutral-800">热门资料（点击次数）</h3>
-          <span className="text-xs text-neutral-500">Top 5</span>
+          <h3 className="text-base font-semibold">热门资料（点击次数）</h3>
+          <span className="text-xs text-foreground/60">Top 5</span>
         </div>
         <div className="mt-4 grid gap-3">
           {topClicks.length === 0 ? (
-            <div className="text-sm text-neutral-500">暂无数据</div>
+            <div className="text-sm text-foreground/70">暂无数据</div>
           ) : (
             topClicks.map((t, i) => (
               <div key={i} className="flex items-center justify-between text-sm">
                 <span className="truncate max-w-[70%]">{t.title}</span>
-                <span className="text-neutral-500">{t.clicks}</span>
+                <span className="text-foreground/60">{t.clicks}</span>
               </div>
             ))
           )}

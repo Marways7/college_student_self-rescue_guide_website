@@ -2,12 +2,14 @@ import { prisma } from "@/lib/prisma";
 import clientPromise from "@/lib/mongodb";
 import ResourceCard from "@/components/ResourceCard";
 
+type HotResource = { id: string; title: string; coverImageUrl: string | null };
+
 export default async function HomeHotResources() {
   const client = await clientPromise;
   const db = client.db();
-  const top = await db
+  const topAgg = await db
     .collection("ResourceStat")
-    .aggregate([
+    .aggregate<HotResource>([
       { $sort: { clicks: -1 } },
       { $limit: 8 },
       { $lookup: { from: "Resource", localField: "resourceId", foreignField: "_id", as: "res" } },
@@ -17,9 +19,9 @@ export default async function HomeHotResources() {
     ])
     .toArray();
 
-  let items: Array<{ id: string; title: string; coverImageUrl: string | null }>;
-  if (top.length > 0) {
-    items = top.map((t) => ({ id: String((t as any).id), title: (t as any).title, coverImageUrl: ((t as any).coverImageUrl as string | null) ?? null }));
+  let items: HotResource[];
+  if (topAgg.length > 0) {
+    items = topAgg.map((t) => ({ id: String((t as unknown as { id: unknown }).id), title: t.title, coverImageUrl: t.coverImageUrl ?? null }));
   } else {
     items = await prisma.resource.findMany({ where: { isPublic: true }, orderBy: { createdAt: "desc" }, take: 8, select: { id: true, title: true, coverImageUrl: true } });
   }
