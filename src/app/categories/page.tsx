@@ -13,7 +13,7 @@ export default async function CategoriesPage() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
+    <div className="mx-auto max-w-7xl px-4 pt-24 md:pt-28 pb-12">
       <h1 className="text-2xl font-semibold mb-6">分类</h1>
       {categories.length === 0 ? (
         <p className="text-neutral-600">暂无分类</p>

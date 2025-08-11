@@ -7,6 +7,11 @@ import { ObjectId } from "mongodb";
 import ResourceCard from "@/components/ResourceCard";
 import { Skeleton } from "@/components/Skeleton";
 
+interface ResourceStatDoc {
+  resourceId: ObjectId;
+  clicks?: number;
+}
+
 async function ResourceList() {
   // 获取资源数据
   const resources = await prisma.resource.findMany({
@@ -27,14 +32,14 @@ async function ResourceList() {
   const client = await clientPromise;
   const db = client.db();
   const resourceIds = resources.map(r => new ObjectId(r.id));
-  const resourceStats = await db.collection("ResourceStat").find({
+  const resourceStats = await db.collection<ResourceStatDoc>("ResourceStat").find({
     resourceId: { $in: resourceIds }
   }).toArray();
   
   // 创建点击统计映射
-  const clicksMap = new Map();
-  resourceStats.forEach((stat: any) => {
-    clicksMap.set(stat.resourceId.toString(), stat.clicks || 0);
+  const clicksMap = new Map<string, number>();
+  resourceStats.forEach((stat) => {
+    clicksMap.set(stat.resourceId.toString(), stat.clicks ?? 0);
   });
 
   if (resources.length === 0) {
@@ -74,7 +79,7 @@ function ResourceListSkeleton() {
 
 export default function ResourcesPage() {
   return (
-    <div className="container-fluid py-8">
+    <div className="container-fluid pb-12" style={{ paddingTop: "calc(var(--nav-h, 80px) + 32px)" }}>
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-3">学习资料库</h1>
         <p className="text-foreground-muted">探索高质量的学习资源</p>

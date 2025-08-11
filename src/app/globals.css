@@ -51,6 +51,11 @@
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  --brand-c1: #00C2FF;
+  --brand-c2: #18FF92;
+  --brand-c3: #8B5CF6;
+  --brand-c4: #FF66C4;
+  --brand-gradient: linear-gradient(135deg, var(--brand-c1), var(--brand-c2), var(--brand-c3), var(--brand-c4));
 }
 
 @media (prefers-color-scheme: light) {
@@ -357,4 +362,21 @@ h3 {
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 8px;
+}
+
+/* Brand Utilities */
+.brand-gradient {
+  background-image: var(--brand-gradient);
+}
+.brand-text-gradient {
+  background-image: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.brand-border {
+  border-image: var(--brand-gradient) 1;
+}
+.brand-glow {
+  box-shadow: 0 0 40px color-mix(in oklab, var(--brand-c3) 40%, transparent);
 }

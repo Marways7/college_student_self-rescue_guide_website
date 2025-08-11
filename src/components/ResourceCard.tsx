@@ -53,11 +53,11 @@ export default function ResourceCard({ resource, index = 0 }: ResourceCardProps)
 
   // Generate random gradient for cards without images
   const gradients = [
-    "from-purple-600 via-pink-600 to-red-600",
-    "from-blue-600 via-cyan-600 to-teal-600",
-    "from-green-600 via-emerald-600 to-cyan-600",
-    "from-orange-600 via-red-600 to-pink-600",
-    "from-indigo-600 via-purple-600 to-pink-600",
+    "from-[var(--brand-c1)] via-[var(--brand-c2)] to-[var(--brand-c3)]",
+    "from-[var(--brand-c2)] via-[var(--brand-c3)] to-[var(--brand-c4)]",
+    "from-[var(--brand-c3)] via-[var(--brand-c4)] to-[var(--brand-c1)]",
+    "from-[var(--brand-c4)] via-[var(--brand-c1)] to-[var(--brand-c2)]",
+    "from-[var(--brand-c1)] via-[var(--brand-c3)] to-[var(--brand-c4)]",
   ];
   const defaultGradient = gradients[index % gradients.length];
 
@@ -84,7 +84,7 @@ export default function ResourceCard({ resource, index = 0 }: ResourceCardProps)
       >
         {/* Glow Effect */}
         <motion.div
-          className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none"
+          className="absolute -inset-[1px] rounded-2xl brand-gradient opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none"
           animate={{
             opacity: isHovered ? 0.6 : 0,
           }}
@@ -170,7 +170,7 @@ export default function ResourceCard({ resource, index = 0 }: ResourceCardProps)
           {/* Content */}
           <div className="p-5">
             {/* Title */}
-            <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300">
+            <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-transparent group-hover:brand-text-gradient transition-all duration-300">
               {resource.title}
             </h3>
             
@@ -232,7 +232,7 @@ export default function ResourceCard({ resource, index = 0 }: ResourceCardProps)
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full py-2.5 brand-gradient text-white font-medium rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
             >
               <span>查看详情</span>
               <Download className="w-4 h-4" />

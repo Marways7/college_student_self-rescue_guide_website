@@ -144,3 +144,38 @@
 - 完整的用户权限管理体系
 - 生产级系统设置功能
 - 无模拟数据，全真实数据驱动
+
+2025-08-11 补充 4：首页视觉与性能问题排查
+
+问题 20：Hydration mismatch（首页随机星空/粒子）
+- 现象：控制台反复出现 “A tree hydrated but some attributes ... didn't match”。
+- 根因：背景随机星点与粒子系统使用 `Math.random()` 生成初始位置，导致 SSR 与 CSR DOM 属性不一致。
+- 处理：彻底移除随机 DOM；改为可控的 Aurora 背景（基于 CSS 变量与渐变），无随机项。
+
+问题 21：左上角卡顿与高 CPU（粒子 Canvas）
+- 现象：用户反馈左上角有一小块动画导致页面卡顿。
+- 根因：旧 `ParticleBackground` 使用高频 requestAnimationFrame 绘制 + 过多粒子，移动端/低配机明显卡顿。
+- 处理：删除 `src/components/ParticleBackground.tsx`；取消所有 Canvas 动画。
+
+问题 22：ESLint/TS 报错（any/@ts-expect-error、自定义CSS变量）
+- 处理：通过 `CSSProperties` 合法注入 CSS 自定义变量；移除 `any` 与 `@ts-expect-error`。
+
+验证：
+- 首页打开无报错/警告；滚动、悬停动效稳定；切换配色持久化生效。
+- E2E：使用 Playwright 打开首页与后台，控制台零错误，截图归档于运行目录。
+
+2025-08-11 补充 5：首页“探索更多”与热门区背景不一致
+
+问题 23：英雄区“探索更多”不可用
+- 现象：点击无跳转，无法带用户至热门资料区
+- 根因：缺少目标锚点与链接，只有装饰性的动效
+- 处理：为滚动指示器包裹 `<a href="#home-hot">`，添加 `aria-label` 与键盘 Enter/Space 触发平滑滚动（`scrollIntoView`）；热门区 section 添加 `id="home-hot"`
+
+问题 24：热门资料背景与英雄区不统一
+- 现象：热门区为白色卡片背景，与顶部深色 Aurora 风格割裂
+- 处理：在首页热门区外层加入深色径向渐变底图，内层使用玻璃卡片容器（`bg-white/5 + backdrop-blur + border-white/10`），标题使用品牌渐变并加强调线
+
+验证：
+- 使用浏览器自动化点击“探索更多”链接，URL 跳转 `#home-hot` 且视口滚动到热门区
+- 视觉检查：热门区与顶部风格统一，无突兀白底；标题与分隔线采用品牌渐变
+- 控制台无错误/警告；Fast Refresh 多次重建后功能稳定
