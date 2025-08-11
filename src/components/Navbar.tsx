@@ -7,7 +7,11 @@ import { FormEvent, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Search, LogOut, User, Sparkles, Menu, X, Home, BookOpen, Grid3X3, Shield } from "lucide-react";
 
-export default function Navbar() {
+interface NavbarProps {
+  siteName: string;
+}
+
+export default function Navbar({ siteName }: NavbarProps) {
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
@@ -76,7 +80,7 @@ export default function Navbar() {
               </motion.div>
               <div className="hidden sm:block">
                 <div className="text-lg font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                  大学生自救指南
+                  {siteName}
                 </div>
                 <div className="text-xs text-foreground-subtle">
                   SOTA Learning Platform

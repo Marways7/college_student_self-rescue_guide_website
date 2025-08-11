@@ -10,7 +10,7 @@ export type AdminResource = {
   title: string;
   slug: string;
   isPublic: boolean;
-  createdAt: string | Date;
+  createdAt: string;
 };
 
 export default function ResourcesManager({ initialResources }: { initialResources: AdminResource[] }) {
@@ -54,6 +54,7 @@ export default function ResourcesManager({ initialResources }: { initialResource
       const res = await fetch(`/api/admin/resources/${id}`, { method: "POST", body: new URLSearchParams({ _method: "DELETE" }) });
       if (!res.ok) throw new Error("删除失败");
       toast.success("已删除");
+      setConfirmId(null); // Close the confirmation dialog
       setSelectedIds((sel) => {
         const next = new Set(sel);
         next.delete(id);
@@ -148,7 +149,7 @@ export default function ResourcesManager({ initialResources }: { initialResource
                 <td className="p-3">{r.title}</td>
                 <td className="p-3 text-neutral-600">{r.slug}</td>
                 <td className="p-3">{r.isPublic ? "是" : "否"}</td>
-                <td className="p-3">{new Date(r.createdAt).toLocaleString()}</td>
+                <td className="p-3">{new Date(r.createdAt).toLocaleDateString('zh-CN')}</td>
                 <td className="p-3 text-right space-x-2">
                   <Link href={`/admin/resources/${r.id}`} className="rounded-md border px-3 py-1 hover:bg-neutral-100">编辑</Link>
                   <button onClick={() => setConfirmId(r.id)} className="rounded-md border px-3 py-1 hover:bg-red-50 text-red-600 border-red-200 disabled:opacity-60" disabled={busyIds.has(r.id)}>
@@ -166,7 +167,12 @@ export default function ResourcesManager({ initialResources }: { initialResource
         title="确认删除"
         description="删除后无法恢复，是否确认删除该资料？"
         onCancel={() => setConfirmId(null)}
-        onConfirm={() => confirmId && deleteOne(confirmId)}
+        onConfirm={() => {
+          if (confirmId) {
+            deleteOne(confirmId);
+            setConfirmId(null);
+          }
+        }}
         busy={isBusy}
       />
     </div>

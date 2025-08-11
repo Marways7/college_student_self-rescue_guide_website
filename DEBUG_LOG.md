@@ -39,3 +39,108 @@
   - 登录管理员后在 `/admin/resources/new` 创建“离散数学 笔记精编”成功；跳转编辑页；列表显示；删除按钮删除后重定向回列表。
   - `/admin/categories` 新建、编辑、排序、启用/停用、删除均成功，删除会将关联资源 `categoryId` 置空。
 - 后台仪表盘：新增“趋势占位”区块（后续可接入真实统计）。
+
+问题 7：构建类型错误 - ResourceCard Props 不匹配
+- 现象：`ResourceCardProps` 期望 `resource` 对象，但页面以散参 `id/title/coverImageUrl` 传入
+- 处理：统一改为 `<ResourceCard resource={...} index={...}/>`，并调整 Prisma `select` 字段
+
+问题 8：Prisma `include` 导致类型 `never`
+- 根因：MongoDB Prisma 模型未定义关系，`include.category` 不可用
+- 处理：改为 `select` 选择业务必需字段
+
+问题 9：`ParticleBackground` `useRef<number>()` 报 Expected 1 arguments
+- 根因：TS 严格模式下需提供初值或可空类型
+- 处理：改为 `useRef<number | null>(null)` 并在清理时判空
+
+问题 10：`springConfig` 与 `Transition` 类型不兼容
+- 现象：`type: "spring"` 被推断为 `string` 导致不兼容
+- 处理：`as const` 固定字面量并 `satisfies Record<string, Transition>`
+
+验证：
+- `npm run build` 绿色；`npm run dev` 启动成功
+- 浏览器自动化：访问首页、进入资料库与后台均成功；MongoDB 中存在管理员账号与示例数据，端到端路径可用
+
+2025-08-11 补充 2：后台管理与数据真实化完善
+
+问题 11：ResourceCard 显示模拟数据
+- 现象：卡片上显示"0 次浏览"、"最近更新"等固定文本
+- 处理：修改 ResourceCard 组件支持 updatedAt 字段，浏览量改为下载次数，获取真实统计数据
+
+问题 12：后台管理缺失重要页面
+- 现象：用户管理、数据分析、系统设置页面空白
+- 处理：
+  - 创建 `/admin/users` 用户管理：用户列表、统计、角色展示，基于 MongoDB users 集合
+  - 创建 `/admin/analytics` 数据分析：资源统计、点击统计、用户增长、热门排行
+  - 创建 `/admin/settings` 系统设置：基础配置、安全选项、邮件设置、维护模式
+
+问题 13：前后端数据不一致
+- 根因：ResourceCard 查询缺少 updatedAt，统计数据未从 ResourceStat 获取
+- 处理：
+  - 统一所有页面查询包含 updatedAt 字段
+  - HomeHotResources 通过 MongoDB 聚合获取真实点击数
+  - 所有 ResourceCard 传入 updatedAt 转 ISO 字符串格式
+
+问题 14：类型系统不兼容
+- 现象：HotResource 类型 updatedAt 为 Date 但组件期望 string
+- 处理：在映射时调用 .toISOString() 转换，确保类型一致性
+
+验证：
+- 构建成功，所有新页面正常访问
+- 用户管理显示真实用户数据（7个用户，4个管理员）
+- 数据分析显示真实统计（8个资源，5次总下载，热门排行正确）
+- 系统设置页面完整，支持各项配置选项
+- ResourceCard 显示真实更新时间（2025/8/11）和下载次数
+- 后台仪表盘数据与各页面保持一致，无模拟数据
+
+2025-08-11 补充 3：全面修复与功能验证
+
+问题 15：资料卡片无法点击
+- 现象：整个资料卡片区域无法点击跳转
+- 根因：按钮被嵌套在 Link 内部，复杂的动画效果阻挡点击事件
+- 处理：重构 ResourceCard，将整个卡片包装为 Link，移除嵌套的按钮Link
+- 验证：浏览器自动化测试确认卡片可点击并正常跳转到详情页
+
+问题 16：用户管理功能为摆设
+- 现象：禁用/启用/删除按钮无实际功能，角色切换无效
+- 处理：
+  - 创建 `/api/admin/users/[id]` API支持PATCH（状态/角色更新）和DELETE操作
+  - 实现 UsersManager 客户端组件，连接真实API
+  - 加入安全检查：不允许操作管理员账户
+- 验证：成功禁用用户 PanelUser1，状态从"正常"变为"已禁用"，UI实时更新
+
+问题 17：系统设置无保存功能
+- 现象：设置修改后无法保存，为静态展示
+- 处理：
+  - 创建 `/api/admin/settings` API支持GET/POST操作
+  - 实现 SettingsManager 客户端组件，支持表单提交和验证
+  - MongoDB settings集合持久化配置
+- 验证：修改网站名称为"大学生自救指南 - 测试版本"，成功保存并显示通知
+
+问题 18：ObjectId序列化错误
+- 现象：MongoDB ObjectId无法传递给客户端组件
+- 根因：Next.js Client Components不支持非原始类型序列化
+- 处理：在服务端将ObjectId转换为string，更新相关类型定义
+- 验证：用户列表正常显示，无序列化错误
+
+问题 19：数据库操作API缺失
+- 现象：后台管理界面与数据库未连接
+- 处理：
+  - 用户管理：支持状态切换、角色变更、用户删除
+  - 设置管理：支持配置读取和保存，参数验证
+  - 错误处理：统一错误响应和客户端提示
+- 验证：所有数据库操作正常，真实数据展示和修改成功
+
+最终验证结果：
+- ✅ ResourceCard：点击正常，跳转到 `/resources/6898fef1af34441998ce43ef`
+- ✅ 用户管理：PanelUser1状态已禁用，按钮变为"启用"，数据库已更新
+- ✅ 系统设置：网站名称已保存，显示成功通知，MongoDB已持久化
+- ✅ 构建：`npm run build` 通过，仅余一个非阻断警告
+- ✅ 类型安全：所有TypeScript错误已修复
+- ✅ 端到端流程：前台资料浏览→后台用户管理→系统设置→数据库操作全链路打通
+
+当前系统状态：
+- 7个真实用户，4个管理员，3个普通用户
+- 8个示例资源，真实更新时间2025/8/11
+- 完整的用户权限管理体系
+- 生产级系统设置功能
+- 无模拟数据，全真实数据驱动

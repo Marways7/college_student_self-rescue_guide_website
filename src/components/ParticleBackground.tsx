@@ -15,7 +15,7 @@ interface Particle {
 
 export default function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const prefersReducedMotion = useReducedMotion();
@@ -118,7 +118,7 @@ export default function ParticleBackground() {
     window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      if (animationRef.current) {
+      if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current);
       }
       window.removeEventListener("resize", resizeCanvas);

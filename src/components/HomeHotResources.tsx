@@ -9,16 +9,13 @@ type HotResource = {
   coverImageUrl: string | null;
   tags: string[];
   isPublic: boolean;
-  categoryId: string | null;
-  quarkUrl: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  category: {
+  updatedAt: string;
+  category?: {
     name: string;
     slug: string;
   } | null;
-  _count: {
-    clicks: number;
+  _count?: {
+    clicks?: number;
   };
 };
 
@@ -42,30 +39,32 @@ export default async function HomeHotResources() {
       .toArray()) as unknown as ResourceStat[];
 
     if (stats.length > 0) {
-      const resourceIds = stats.map((s) => s.resourceId);
-      const clicksMap = new Map(stats.map((s) => [s.resourceId, s.clicks]));
+      const resourceIds = stats.map((s) => s.resourceId.toString());
+      const clicksMap = new Map(stats.map((s) => [s.resourceId.toString(), s.clicks]));
       
       const dbResources = await prisma.resource.findMany({
         where: {
           id: { in: resourceIds },
           isPublic: true,
         },
-        include: {
-          category: {
-            select: {
-              name: true,
-              slug: true,
-            },
-          },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          coverImageUrl: true,
+          tags: true,
+          isPublic: true,
+          updatedAt: true,
         },
       });
 
       resources = dbResources
         .map((r): HotResource => ({
           ...r,
+          updatedAt: r.updatedAt.toISOString(),
           _count: { clicks: clicksMap.get(r.id) || 0 },
         }))
-        .sort((a, b) => b._count.clicks - a._count.clicks);
+        .sort((a, b) => (b._count?.clicks ?? 0) - (a._count?.clicks ?? 0));
     }
   } catch (error) {
     console.error("Failed to fetch hot resources:", error);
@@ -75,13 +74,14 @@ export default async function HomeHotResources() {
   if (resources.length === 0) {
     const latestResources = await prisma.resource.findMany({
       where: { isPublic: true },
-      include: {
-        category: {
-          select: {
-            name: true,
-            slug: true,
-          },
-        },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        coverImageUrl: true,
+        tags: true,
+        isPublic: true,
+        updatedAt: true,
       },
       orderBy: { createdAt: "desc" },
       take: 8,
@@ -89,6 +89,7 @@ export default async function HomeHotResources() {
     
     resources = latestResources.map((r): HotResource => ({
       ...r,
+      updatedAt: r.updatedAt.toISOString(),
       _count: { clicks: 0 },
     }));
   }

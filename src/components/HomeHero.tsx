@@ -5,7 +5,12 @@ import { motion, useScroll, useTransform, type Transition } from "framer-motion"
 import { ArrowRight, Sparkles, Zap, Shield } from "lucide-react";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 
-export default function HomeHero() {
+interface HomeHeroProps {
+  siteName: string;
+  siteDescription: string;
+}
+
+export default function HomeHero({ siteName, siteDescription }: HomeHeroProps) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -104,10 +109,8 @@ export default function HomeHero() {
           variants={staggerItem}
           className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
         >
-          <span className="inline-block">大学生</span>
-          <br />
           <span className="inline-block bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-            自救指南
+            {siteName}
           </span>
         </motion.h1>
 
@@ -116,7 +119,7 @@ export default function HomeHero() {
           variants={staggerItem}
           className="text-lg md:text-xl text-foreground-muted max-w-2xl mb-12"
         >
-          高质量学习资料分享与检索平台
+          {siteDescription}
           <br />
           <span className="text-sm opacity-80">
             更快找到 · 更可信 · 更便捷

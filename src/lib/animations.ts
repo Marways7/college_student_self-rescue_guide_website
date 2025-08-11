@@ -1,13 +1,13 @@
-import { Variants } from "framer-motion";
+import { Variants, Transition } from "framer-motion";
 
 // Spring Configurations
 export const springConfig = {
-  gentle: { type: "spring", stiffness: 100, damping: 15 },
-  bouncy: { type: "spring", stiffness: 400, damping: 25 },
-  smooth: { type: "spring", stiffness: 280, damping: 30 },
-  elastic: { type: "spring", stiffness: 500, damping: 20 },
-  stiff: { type: "spring", stiffness: 700, damping: 35 },
-};
+  gentle: { type: "spring", stiffness: 100, damping: 15 } as const,
+  bouncy: { type: "spring", stiffness: 400, damping: 25 } as const,
+  smooth: { type: "spring", stiffness: 280, damping: 30 } as const,
+  elastic: { type: "spring", stiffness: 500, damping: 20 } as const,
+  stiff: { type: "spring", stiffness: 700, damping: 35 } as const,
+} satisfies Record<string, Transition>;
 
 // Page Transition Variants
 export const pageVariants: Variants = {
@@ -222,7 +222,7 @@ export const liquidFillVariants: Variants = {
 };
 
 // Typewriter Effect
-export const typewriterVariants = (text: string): Variants => ({
+export const typewriterVariants = (_text: string): Variants => ({
   hidden: {
     opacity: 0,
   },
