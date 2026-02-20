@@ -136,17 +136,19 @@ npm run lint
 ├─ prisma/               # 数据模型定义
 ├─ public/               # 静态资源
 ├─ UI截图/               # README 展示素材（截图/视频）
-├─ docs/                 # 项目文档（报告、清单、设计等）
-├─ Dev-Log.md            # 开发日志
+├─ docs/                 # 项目文档（设计、报告、优化说明）
 ├─ README.md
 └─ LICENSE
 ```
 
 ## 文档索引
 
-- 开源前检查清单: [`docs/OPEN_SOURCE_PRE_FLIGHT_CHECKLIST.md`](./docs/OPEN_SOURCE_PRE_FLIGHT_CHECKLIST.md)
-- 文档总览: [`docs/README.md`](./docs/README.md)
-- 开发日志: [`Dev-Log.md`](./Dev-Log.md)
+- 项目架构与设计: [`docs/DESIGN.md`](./docs/DESIGN.md)
+- 功能升级与迭代概览: [`docs/UPGRADE-SUMMARY.md`](./docs/UPGRADE-SUMMARY.md)
+- UI 设计与体验优化: [`docs/UI_UPGRADE_SUMMARY.md`](./docs/UI_UPGRADE_SUMMARY.md), [`docs/SOTA_DESIGN_SUMMARY.md`](./docs/SOTA_DESIGN_SUMMARY.md)
+- 性能优化记录: [`docs/PERFORMANCE_OPTIMIZATION_REPORT.md`](./docs/PERFORMANCE_OPTIMIZATION_REPORT.md), [`docs/SOTA_OPTIMIZATION_REPORT.md`](./docs/SOTA_OPTIMIZATION_REPORT.md)
+- 功能验证与测试报告: [`docs/USER_MANAGEMENT_TEST_REPORT.md`](./docs/USER_MANAGEMENT_TEST_REPORT.md), [`docs/ADMIN_VERIFICATION_REPORT.md`](./docs/ADMIN_VERIFICATION_REPORT.md), [`docs/ANALYTICS_VERIFICATION_REPORT.md`](./docs/ANALYTICS_VERIFICATION_REPORT.md)
+- 全部文档目录: [`docs/README.md`](./docs/README.md)
 
 ## 参与贡献
 
