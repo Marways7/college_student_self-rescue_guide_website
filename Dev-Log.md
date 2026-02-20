@@ -106,3 +106,18 @@
 - ✅ 本地历史已清洗，泄露字符串不再存在于提交历史
 - ⚠️ 当前环境无法读取 GitHub 凭据，`git push --force-with-lease` 被拒绝
 - ⏳ 需在有权限环境执行强推并在 GitHub 将告警标记为 Revoked
+
+---
+
+### [2026-02-20 19:30] Next.js 漏洞修复与重新部署
+
+**任务描述**: 处理 Vercel 构建阶段对 Next.js 漏洞版本的阻断并完成生产重部署。
+
+**技术决策**:
+- 将 `next` 从 `15.4.6` 升级到 `15.5.12`（15.x 安全线）。
+- 将 `eslint-config-next` 同步升级到 `15.5.12`，保持版本一致。
+- 先本地构建验证，再用 Vercel CLI 执行 `--prod` 部署。
+
+**完成情况**:
+- ✅ 依赖升级完成：`next@15.5.12`、`eslint-config-next@15.5.12`
+- ✅ Vercel 生产部署成功（不再触发 “Vulnerable version of Next.js detected” 阻断）
