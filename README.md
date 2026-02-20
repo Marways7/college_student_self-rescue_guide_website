@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://count.getloli.com/get/@:Marways7-college_student_self-rescue_guide_website?theme=rule34" alt="Moe Counter" />
+  <img src="https://count.getloli.com/@marways7-college-student-self-rescue-guide-website?theme=rule34" alt="Moe Counter" />
 </p>
 
 <p align="center">
