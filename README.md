@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="https://college-student-self-rescue-guide-website.vercel.app" target="_blank">
+  <a href="https://traecollegestudentself-rescueguidew.vercel.app" target="_blank">
     <img src="https://img.shields.io/badge/Online_Preview-Live-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Preview" />
   </a>
   <a href="https://github.com/Marways7/college_student_self-rescue_guide_website" target="_blank">
