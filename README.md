@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://traecollegestudentself-rescueguidew.vercel.app" target="_blank">
-    <img src="https://img.shields.io/badge/Online%20Preview-Vercel-black?style=for-the-badge&logo=vercel" alt="Preview" />
+    <img src="https://img.shields.io/badge/Online_Preview-Live-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Preview" />
   </a>
   <a href="https://github.com/Marways7/college_student_self-rescue_guide_website" target="_blank">
     <img src="https://img.shields.io/badge/GitHub-Marways7%2Fcollege_student_self--rescue_guide_website-181717?style=for-the-badge&logo=github" alt="GitHub" />
