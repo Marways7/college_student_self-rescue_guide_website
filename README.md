@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://traecollegestudentself-rescueguidewebsitekn9k-615y73x6j.vercel.app" target="_blank">
+  <a href="https://traecollegestudentself-rescueguidew.vercel.app" target="_blank">
     <img src="https://img.shields.io/badge/Online%20Preview-Vercel-black?style=for-the-badge&logo=vercel" alt="Preview" />
   </a>
   <a href="https://github.com/Marways7/college_student_self-rescue_guide_website" target="_blank">
@@ -44,7 +44,7 @@
 
 ## 在线预览
 
-- 预览地址: `https://traecollegestudentself-rescueguidewebsitekn9k-615y73x6j.vercel.app`
+- 预览地址: `https://traecollegestudentself-rescueguidew.vercel.app`
 - 说明: 仅用于界面与交互演示，不对应真实线上业务数据。
 
 ## 核心亮点
