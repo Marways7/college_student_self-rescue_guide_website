@@ -13,7 +13,9 @@
 <h1 align="center">大学生自救指南网站</h1>
 
 <p align="center">
-  <code>college_student_self-rescue_guide_website</code>
+  <a href="https://github.com/Marways7/college_student_self-rescue_guide_website" target="_blank">
+    <code>college_student_self-rescue_guide_website</code>
+  </a>
 </p>
 
 <p align="center">
@@ -44,7 +46,7 @@
 
 ## 在线预览
 
-- 预览地址: `https://traecollegestudentself-rescueguidew.vercel.app`
+- 预览地址: `https://college-student-self-rescue-guide-website.vercel.app`
 - 说明: 仅用于界面与交互演示，不对应真实线上业务数据。
 
 ## 核心亮点
